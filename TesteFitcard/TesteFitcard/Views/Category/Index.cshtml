@@ -1,0 +1,59 @@
+﻿@model IPagedList<TesteFitcard.Models.Category>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Categorias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p class="lead"><b>Categorias</b></p>
+<div>
+    <hr />
+    @if (Model.Count() == 0)
+    {
+        <label>Não existem informações cadastradas. @Html.ActionLink("Clique", "New", "Category", null) para adicionar uma nova Categoria.</label>
+    }
+    else
+    {
+        <div style="margin-bottom:20px;">
+            <input type="text" id="TxtBoxSearch" onkeyup="SearchCategory()" placeholder="Pesquisar" class="form-control form-control-sm" />
+        </div>
+
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.First().description)
+                    </th>
+                    <th>Ações</th>
+                    <th></th>
+            </thead>
+            <tbody id="CategoryTable">
+                @foreach (var category in Model)
+                {
+                    <tr id="Categories">
+                        <th scope="row">
+                            @Html.ActionLink(category.description, "Details", new { id = category.ID })
+                        </th>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = category.ID }, new { @class = "btn btn-sm btn-warning" })
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "Category", new { id = category.ID }))
+                            {
+                                <input type="submit" class="btn btn-sm btn-outline-danger" value="Excluir" onclick="return confirm(' Remover categoria @category.description? ')" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @Html.PagedListPager(Model, i => Url.Action("Index", "Category", new { i }))
+    <hr />
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Category/Search.js")
+}

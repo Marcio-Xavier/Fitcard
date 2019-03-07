@@ -1,0 +1,95 @@
+﻿@model IPagedList<TesteFitcard.Models.Company>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Página Inicial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p class="lead"><b>Estabelecimentos</b></p>
+<div>
+    <hr />
+    @if (Model.Count() == 0)
+    {
+        <label>Não existem informações cadastradas. @Html.ActionLink("Clique", "New", "Company", null) para adicionar um novo Estabelecimento.</label>
+    }
+    else
+    {
+        <div style="margin-bottom:20px;">
+            <input type="text" id="TxtBoxSearch" onkeyup="SearchCompany()" placeholder="Pesquisar" class="form-control form-control-sm" />
+        </div>
+
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.First().companyName)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.First().cnpj)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.First().cityID)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.First().categoryID)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.First().status)
+                    </th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="CompanyTable">
+                @foreach (var company in Model)
+                {
+                    <tr id="Companies">
+                        <th scope="row">
+                            @Html.ActionLink(company.companyName, "Details", new { id = company.ID })
+                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => company.cnpj)
+                        </td>
+                        <td>
+                            @company.city.name-@company.state.fu
+                        </td>
+                        <td>
+                            @company.category.description
+                        </td>
+                        <td>
+                            @if (company.status == true)
+                            {
+                                @Html.Label("Ativo")
+                            }
+                            else
+                            {
+                                @Html.Label("Inativo")
+                            }
+                        </td>
+
+                        <td>
+                            <div class="row">
+                                <div class="col-4">
+                                    @Html.ActionLink("Editar", "Edit", new { id = company.ID }, new { @class = "btn btn-sm btn-warning" })
+                                </div>
+                                <div class="col-4">
+                                    @using (Html.BeginForm("Delete", "Company", new { id = company.ID }))
+                                    {
+                                        <input type="submit" class="btn btn-sm btn-outline-danger" value="Excluir" onclick="return confirm(' Remover estabelecimento @company.companyName? ')" />
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @Html.PagedListPager(Model, i => Url.Action("Index", "Company", new { i }))
+    <hr />
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/Company/Search.js")
+}

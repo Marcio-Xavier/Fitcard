@@ -1,0 +1,10 @@
+/TesteFitcard/packages/*
+/TesteFitcard/TesteFitcard/App_Data/*
+/TesteFitcard/TesteFitcard/bin/*
+/TesteFitcard/TesteFitcard/Content/*
+/TesteFitcard/TesteFitcard/fonts/*
+/TesteFitcard/TesteFitcard/obj/*
+/TesteFitcard/TesteFitcard/Properties/*
+/TesteFitcard/TesteFitcard/Scripts/*
+!/TesteFitcard/TesteFitcard/Scripts/Company
+!/TesteFitcard/TesteFitcard/Scripts/Category

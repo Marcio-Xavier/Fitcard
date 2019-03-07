@@ -1,0 +1,28 @@
+﻿@model TesteFitcard.Models.Category
+
+@{
+    ViewBag.Title = "Detalhes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p class="lead"><b>Detalhes de: </b>@Html.DisplayFor(model => model.description)</p>
+<hr />
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">Principal</a>
+        </li>
+
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active show" id="home">
+            <div class="my-margin">
+                <p>
+                    <b>@Html.DisplayNameFor(model => model.description):</b> @Html.DisplayFor(model => model.description)
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.ActionLink("Editar", "Edit", new { id = Model.ID }, new { @class = "btn btn-success" })
+<hr />

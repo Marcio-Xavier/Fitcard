@@ -1,0 +1,84 @@
+﻿@model TesteFitcard.Models.Company
+
+@{
+    ViewBag.Title = "Detalhes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p class="lead"><b>Detalhes de: </b>@Html.DisplayFor(model => model.companyName)</p>
+<hr />
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">Principal</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#profile">+ Detalhes</a>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active show" id="home">
+            <div class="my-margin">
+                <p>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <b>@Html.DisplayNameFor(model => model.companyName):</b> @Html.DisplayFor(model => model.companyName)
+                        </div>
+                        <div class="col-sm-5">
+                            <b>@Html.DisplayNameFor(model => model.tradingName):</b> @Html.DisplayFor(model => model.tradingName)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <b>@Html.DisplayNameFor(model => model.cnpj):</b> @Html.DisplayFor(model => model.cnpj)
+                        </div>
+                        <div class="col-sm-3">
+                            <b>@Html.DisplayNameFor(model => model.telephone):</b> @Html.DisplayFor(model => model.telephone)
+                        </div>
+                        <div class="col-sm-6">
+                            <b>@Html.DisplayNameFor(model => model.email):</b> @Html.DisplayFor(model => model.email)
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="profile">
+            <div class="my-margin">
+                <p>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <b>@Html.DisplayNameFor(model => model.address):</b> @Html.DisplayFor(model => model.address) @Html.DisplayFor(model => model.number) @Html.DisplayFor(model => model.neighborhood) @Html.DisplayFor(model => model.complement) @Html.DisplayFor(model => model.city.name)-@Html.DisplayFor(model => model.state.fu)
+                        </div>
+                        <div class="col-sm-3">
+                            <b>@Html.DisplayNameFor(model => model.categoryID):</b> @Html.DisplayFor(model => model.category.description)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <b>@Html.DisplayNameFor(model => model.bankAgency):</b> @Html.DisplayFor(model => model.bankAgency)
+                        </div>
+                        <div class="col-sm-2">
+                            <b>@Html.DisplayNameFor(model => model.bankAccount):</b> @Html.DisplayFor(model => model.bankAccount)
+                        </div>
+                        <div class="col-sm-3">
+                            <b>@Html.DisplayNameFor(model => model.registrationDate):</b> @Html.DisplayFor(model => model.registrationDate)
+                        </div>
+                        <div class="col-sm-2">
+                            @if (Model.status == true)
+                            {
+                                <b>@Html.DisplayNameFor(model => model.status):</b> @Html.Label("Ativo")
+                            }
+                            else
+                            {
+                                <b>@Html.DisplayNameFor(model => model.status):</b> @Html.Label("Inativo")
+
+                            }
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.ActionLink("Editar", "Edit", new { id = Model.ID }, new { @class = "btn btn-success" })
+<hr />

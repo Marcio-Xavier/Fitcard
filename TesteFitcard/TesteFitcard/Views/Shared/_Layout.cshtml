@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding-top:unset; padding-bottom:unset">
+    @Html.Partial("_Header")
+    <div style="margin-top:20px;margin-bottom:20px;">
+        <div class="container body-content">
+            @RenderBody()
+            <div class="inner">
+                <section>
+                    @Html.ActionLink("Novo Estabelecimento", "New", "Company", null, new { @class = "my-button my-button-grey" })
+                </section>
+                <br />
+                <section>
+                    @Html.ActionLink("Nova Categoria", "New", "Category", null, new { @class = "my-button my-button-grey" })
+                </section>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Footer")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/inputmask")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

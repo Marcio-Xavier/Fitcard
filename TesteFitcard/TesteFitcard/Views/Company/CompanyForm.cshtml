@@ -1,0 +1,203 @@
+﻿@model TesteFitcard.ViewModels.CompanyFormViewModel
+
+@{
+    ViewBag.Title = Model.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p class="lead"><b>@Model.title. </b>Os campos marcados com <b>*</b> são obrigatórios.</p>
+<hr />
+@using (Html.BeginForm("Save", "Company", new { id = "CompanyForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.companyName, htmlAttributes: new { @class = "control-label" }) <b>*</b>
+                        @Html.EditorFor(model => model.company.companyName, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxCompanyName", @onkeyup = "ValidateFormCompanyName()", @maxlength = "150" } })
+                        <span class="invalid-feedback">A Razão Social deve ser preenchida</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.tradingName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.tradingName, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxTradingName", @maxlength = "150" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.cnpj, htmlAttributes: new { @class = "control-label" }) <b>*</b>
+                        @Html.EditorFor(model => model.company.cnpj, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxCnpj", @onkeyup = "ValidateFormCnpj()" } })
+                        <span id="WrongMessageCnpj" class="invalid-feedback">O CNPJ deve ser preenchido</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.address, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.address, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxAddress", @maxlength = "150" } })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.number, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.number, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxNumber", @maxlength = "15" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.neighborhood, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.neighborhood, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxNeighborhood", @maxlength = "150" } })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.complement, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.complement, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxComplement", @maxlength = "150" } })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.stateID, htmlAttributes: new { @class = "control-label" }) <b>*</b>
+                        @Html.DropDownListFor(model => model.company.stateID, new SelectList(Model.states, "ID", "fu"), "Estado", new { @class = "my-custom-select-sm col-12", @id = "DropDownState", @onfocusout = "ValidateFormState()", @onchange = "ValidateFormState()" })
+                        <span class="invalid-feedback">Selecione um Estado</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <div class="col-12">
+                        @Html.LabelFor(model => model.company.cityID, htmlAttributes: new { @class = "control-label" }) <b>*</b>
+                        @Html.DropDownListFor(model => model.company.cityID, new SelectList(Model.cities, "ID", "name"), "Cidade", new { @class = "my-custom-select-sm col-12", @id = "DropDownCity", @onfocusout = "ValidateFormCity()", @onchange = "ValidateFormCity()" })
+                        <span id="WrongMessageCity" class="invalid-feedback">Selecione uma Cidade</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.categoryID, htmlAttributes: new { @class = "control-label" }) <b>*</b>
+                        @Html.DropDownListFor(model => model.company.categoryID, new SelectList(Model.categories, "ID", "description"), "Categoria", new { @class = "my-custom-select-sm col-12", @id = "DropDownCategory", @onfocusout = "ValidateFormCategory()", @onchange = "ValidateFormCategory()" })
+                        <span class="invalid-feedback">Selecione uma Categoria</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.telephone, htmlAttributes: new { @class = "control-label" }) <b id="StarTelephone"></b>
+                        @Html.EditorFor(model => model.company.telephone, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxTelephone", @onkeyup = "ValidateFormTelephone()" } })
+                        <span id="WrongMessageTelephone" class="invalid-feedback">O Telefone informado não é válido</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.email, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.email, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxEmail", @onkeyup = "ValidateFormEmail()", @maxlength = "320" } })
+                        <span id="WrongMessageEmail" class="invalid-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="row">
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.registrationDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.registrationDate, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxRegistrationDate", @onkeyup = "ValidateFormRegistrationDate()" } })
+                        <span id="WrongMessageDate" class="invalid-feedback"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.status, htmlAttributes: new { @class = "control-label" })
+                        <div class="custom-control custom-switch">
+                            @Html.CheckBoxFor(model => model.company.status, htmlAttributes: new { @class = "custom-control-input", @id = "customSwitch1" })
+                            <label id="LabelChkBoxStatus" class="custom-control-label text-muted" for="customSwitch1"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.bankAgency, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.bankAgency, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxBankAgency", @onkeyup = "ValidateFormBankAgency()" } })
+                        <span id="WrongMessageAgency" class="invalid-feedback"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.company.bankAccount, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.company.bankAccount, new { htmlAttributes = new { @class = "form-control form-control-sm col", @id = "TxtBoxBankAccount", @onkeyup = "ValidateFormBankAccount()" } })
+                        <span id="WrongMessageAccount" class="invalid-feedback"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="btn btn-success my-span" onclick="Save()">Salvar</span>
+        <button type="submit" id="BtnSubmit">Save</button>
+        <hr />
+        @Html.HiddenFor(model => model.company.ID, new { @id = "companyID" })
+        @Html.HiddenFor(model => model.company.stateID, new { @id = "stateID" })
+        @Html.HiddenFor(model => model.company.cityID, new { @id = "cityID" })
+    </div>
+}
+@section Scripts{
+    @Scripts.Render("~/Scripts/Company/InputMask.js")
+    @Scripts.Render("~/Scripts/Company/CascadeStates.js")
+    @Scripts.Render("~/Scripts/Company/SignupForm.js")
+    @Scripts.Render("~/Scripts/Company/ValidateCnpj.js")
+    @Scripts.Render("~/Scripts/Company/ValidateEmail.js")
+    @Scripts.Render("~/Scripts/Company/ValidateDate.js")
+    @Scripts.Render("~/Scripts/Company/PaintFields.js")
+    <script>
+        var MyAppUrlSettings = {
+            CascadeStates : '@Url.Action("GetCities", "Company")',
+            ExistingCnpj : '@Url.Action("GetExistingCnpj", "Company")'
+        }
+    </script>
+}
+
